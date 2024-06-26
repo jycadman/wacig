@@ -1,5 +1,3 @@
-// compiler/compiler.go
-
 package compiler
 
 import (
