@@ -10,12 +10,6 @@ vet: fmt
 build: vet
 	go build ./...
 
-test-define:
-	go test -run TestDefine ./compiler
-
-test-resolve:
-	go test -run TestResolveGlobal ./compiler
-
 repl:
 	go build -o monkey .
 	./monkey
