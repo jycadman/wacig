@@ -15,6 +15,7 @@ func TestCompilerScopes(t *testing.T) {
 	if compiler.scopeIndex != 0 {
 		t.Errorf("scopeIndex wrong. got=%d, want=%d", compiler.scopeIndex, 0)
 	}
+	globalSymbolTable := compiler.symbolTable
 
 	compiler.emit(code.OpMul)
 
@@ -34,6 +35,10 @@ func TestCompilerScopes(t *testing.T) {
 	if last.Opcode != code.OpSub {
 		t.Errorf("lastInstruction.Opcode wrong. got=%d, want=%d",
 			last.Opcode, code.OpSub)
+	}
+
+	if compiler.symbolTable.Outer != globalSymbolTable {
+		t.Errorf("compiler did not enclose symbolTable")
 	}
 
 	compiler.leaveScope()
