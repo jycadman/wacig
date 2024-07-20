@@ -1,7 +1,10 @@
 .DEFAULT_GOAL := build
 
 .PHONY:fmt vet build repl clean
-fmt:
+clean:
+	go clean -testcache
+
+fmt: clean
 	go fmt ./...
 
 vet: fmt
@@ -13,6 +16,3 @@ build: vet
 repl:
 	go build -o monkey .
 	./monkey
-
-clean:
-	go clean -testcache
