@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build
 
-.PHONY:fmt vet build repl clean
+.PHONY:clean fmt vet build repl
 clean:
 	go clean -testcache
 
