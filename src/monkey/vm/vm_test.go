@@ -357,16 +357,16 @@ func TestCallingFunctionsWithArgumentsAndBindings(t *testing.T) {
 		{
 			input: `
 		let globalNum = 10;
-		
+
 		let sum = fn(a, b) {
 			let c = a + b;
 			c + globalNum;
 		};
-		
+
 		let outer = fn() {
 			sum(1, 2) + sum(3, 4) + globalNum;
 		};
-		
+
 		outer() + globalNum;
 		`,
 			expected: 50,
@@ -532,6 +532,26 @@ func TestClosures(t *testing.T) {
 		closure();
 		`,
 			expected: 99,
+		},
+	}
+
+	runVmTests(t, tests)
+}
+
+func TestRecursiveFunctions(t *testing.T) {
+	tests := []vmTestCase{
+		{
+			input: `
+		let countDown = fn(x) {
+			if (x == 0) {
+				return 0;
+			} else {
+				countDown(x - 1);
+			}
+		};
+		countDown(1);
+		`,
+			expected: 0,
 		},
 	}
 
