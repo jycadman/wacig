@@ -1,5 +1,3 @@
-// parser/parser_test.go
-
 package parser
 
 import (
@@ -509,7 +507,7 @@ func TestIfElseExpression(t *testing.T) {
 }
 
 func TestFunctionLiteralParsing(t *testing.T) {
-	input := `fn(x, y) { x + y; }`
+	input := `let myFunction = fn() { };`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -521,38 +519,22 @@ func TestFunctionLiteralParsing(t *testing.T) {
 			1, len(program.Statements))
 	}
 
-	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	stmt, ok := program.Statements[0].(*ast.LetStatement)
 	if !ok {
-		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
+		t.Fatalf("program.Statements[0] is not ast.LetStatement. got=%T",
 			program.Statements[0])
 	}
 
-	function, ok := stmt.Expression.(*ast.FunctionLiteral)
+	function, ok := stmt.Value.(*ast.FunctionLiteral)
 	if !ok {
-		t.Fatalf("stmt.Expression is not ast.FunctionLiteral. got=%T",
-			stmt.Expression)
+		t.Fatalf("stmt.Value is not ast.FunctionLiteral. got=%T",
+			stmt.Value)
 	}
 
-	if len(function.Parameters) != 2 {
-		t.Fatalf("function literal parameters wrong. want 2, got=%d\n",
-			len(function.Parameters))
+	if function.Name != "myFunction" {
+		t.Fatalf("function literal name wrong. want 'myFunction', got=%q\n",
+			function.Name)
 	}
-
-	testLiteralExpression(t, function.Parameters[0], "x")
-	testLiteralExpression(t, function.Parameters[1], "y")
-
-	if len(function.Body.Statements) != 1 {
-		t.Fatalf("function.Body.Statements has not 1 statements. got=%d\n",
-			len(function.Body.Statements))
-	}
-
-	bodyStmt, ok := function.Body.Statements[0].(*ast.ExpressionStatement)
-	if !ok {
-		t.Fatalf("function body stmt is not ast.ExpressionStatement. got=%T",
-			function.Body.Statements[0])
-	}
-
-	testInfixExpression(t, bodyStmt.Expression, "x", "+", "y")
 }
 
 func TestFunctionParameterParsing(t *testing.T) {

@@ -1,5 +1,3 @@
-// parser/parser_tracing.go
-
 package parser
 
 import (
