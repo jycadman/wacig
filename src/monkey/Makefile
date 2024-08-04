@@ -16,3 +16,6 @@ build: vet
 repl:
 	go build -o monkey .
 	./monkey
+
+benchmark: build
+	go build -o fibonacci ./benchmark
