@@ -920,6 +920,8 @@ func TestClosures(t *testing.T) {
 	runCompilerTests(t, tests)
 }
 
+// TODO: Define TestRecursiveFunctions
+
 func parse(input string) *ast.Program {
 	l := lexer.New(input)
 	p := parser.New(l)
